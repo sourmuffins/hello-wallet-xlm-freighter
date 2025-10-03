@@ -5,14 +5,10 @@ document.getElementById("connect").onclick = async () => {
   }
 
   try {
-    // Ask Freighter for the public key on TESTNET
-    const publicKey = await window.freighterApi.getPublicKey("TESTNET");
+    const publicKey = await window.freighterApi.getPublicKey({ network: "TESTNET" });
     document.getElementById("address").innerText = "Address: " + publicKey;
 
-    // Fetch account balances from Horizon testnet
-    const response = await fetch(
-      `https://horizon-testnet.stellar.org/accounts/${publicKey}`
-    );
+    const response = await fetch(`https://horizon-testnet.stellar.org/accounts/${publicKey}`);
     const account = await response.json();
 
     const balance = account.balances.find(b => b.asset_type === "native").balance;
